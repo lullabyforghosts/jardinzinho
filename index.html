@@ -43,8 +43,7 @@ body{
 #jardim{
     position:relative;
     width:100%;
-    height: 50vh; /* Reduzido para dar espaço garantido à caixa de texto */
-    margin-top: 20px;
+    height: 50vh;
 }
 
 .flor {
@@ -54,6 +53,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 5;
 }
 
 .flor:hover{
@@ -113,7 +113,7 @@ body{
 .caule {
     position: absolute;
     width: 4px;
-    height: 100px; /* Reduzido levemente para subir as flores */
+    height: 100px;
     background: linear-gradient(to bottom, #192d20, #0a140d);
     top: 100%;
     z-index: -1;
@@ -123,13 +123,14 @@ body{
 #muda {
     position: absolute;
     left: 50%;
-    top: 45%; /* Subiu um pouco na tela */
+    top: 45%;
     transform: translate(-50%,-50%);
     cursor: pointer;
     transition: .4s;
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 5;
 }
 
 #muda:hover {
@@ -149,8 +150,8 @@ body{
 .estagio-4 { width: 65px; height: 65px; border-radius: 50%; background: #50061c; box-shadow: inset 0 0 15px #000; }
 
 #mensagem{
-    position: relative; /* Mudado para se alinhar dinamicamente no fundo da tela */
-    margin: 0 auto 40px auto; /* Centraliza horizontalmente e dá margem do fundo */
+    position: relative;
+    margin: 0 auto 40px auto;
     width: 80%;
     max-width: 650px;
     background: rgba(10, 11, 16, 0.9);
@@ -204,6 +205,7 @@ body{
     opacity:.8;
     animation:piscar 3s infinite;
     pointer-events: none;
+    z-index: 1;
 }
 
 @keyframes piscar{
@@ -214,36 +216,41 @@ body{
 
 <body>
 
-<div>
+<header>
     <h1 id="titulo">✦ O Jardim da Noite Eterna</h1>
     <p id="subtitulo">A noite sempre parece mais viva e ricamente colorida.</p>
-</div>
+</header>
 
 <div id="regador">🍷</div>
 
 <div id="jardim">
 
+    <!-- Flor 1 -->
     <div class="flor" style="left:15%; top:45%;">
         <div class="rosa-carmesim"></div>
         <div class="caule"></div>
     </div>
     
+    <!-- Flor 2 -->
     <div class="flor" style="left:32%; top:43%;">
         <div class="girassol"></div>
         <div class="girassol-petalas"></div>
         <div class="caule" style="height: 110px;"></div>
     </div>
     
+    <!-- Flor 3 -->
     <div class="flor" style="left:68%; top:43%;">
         <div class="rosa-azul"></div>
         <div class="caule" style="height: 110px;"></div>
     </div>
     
+    <!-- Flor 4 -->
     <div class="flor" style="left:82%; top:47%;">
         <div class="rosa-carmesim" style="transform: scale(0.9) rotate(15deg);"></div>
         <div class="caule"></div>
     </div>
 
+    <!-- Rosa Central -->
     <div id="muda">
         <div id="sub-muda" class="botoes-rosa estagio-0"></div>
         <div class="caule" style="height: 110px; top: 80%;"></div>
@@ -264,7 +271,7 @@ const mensagensFlores = [
     "Espero que a calada da noite traga paz ao seu coração hoje.",
     "Você não precisa dar respostas ao mundo todos os dias.",
     "Até as pinturas mais profundas de Van Gogh precisaram da escuridão para destacar a luz.",
-    "Há sentimentos que criam raíces permanentes dentro da gente.",
+    "Há sentimentos que criam raízes permanentes dentro da gente.",
     "Seu bem-estar importa mais do que qualquer pressa do mundo.",
     "O tempo resolve o que a gente, às vezes, tenta forçar."
 ];
@@ -312,6 +319,26 @@ document.getElementById("regador").addEventListener("click", () => {
     gota.classList.add("gota");
     gota.innerHTML = "🩸";
 
+    // Posicionamento corrigido para cair diretamente do cálice
     gota.style.right = "35px";
-    gota.style.top = "
-    
+    gota.style.top = "50px";
+
+    document.body.appendChild(gota);
+    setTimeout(() => {
+        gota.remove();
+    }, 1000);
+});
+
+for(let i=0; i<35; i++){
+    const estrela = document.createElement("div");
+    estrela.classList.add("estrela");
+    estrela.innerHTML = "✦";
+    estrela.style.left = Math.random() * 100 + "%";
+    estrela.style.top = Math.random() * 40 + "%";
+    estrela.style.fontSize = (10 + Math.random() * 12) + "px";
+    document.body.appendChild(estrela);
+}
+</script>
+
+</body>
+</html>
