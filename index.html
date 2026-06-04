@@ -1,294 +1,338 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Um Jardim Para Você 🌱</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um Jardim na Noite Estrelada</title>
+    <style>
+        :root {
+            --bg-night: #0a0b10;
+            --vampire-red: #580000;
+            --star-gold: #f4d068;
+            --gothic-blue: #1c2d42;
+            --text-light: #e0e0e0;
+        }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body{
-    height:100vh;
-    overflow:hidden;
-    font-family:Georgia, serif;
-    background:linear-gradient(
-        to bottom,
-        #cfe9ff 0%,
-        #e8f5ff 45%,
-        #c7e7b2 46%,
-        #8ec07c 100%
-    );
-}
+        body {
+            background: linear-gradient(180deg, #05070f 0%, #0c1020 50%, #1a1216 100%);
+            color: var(--text-light);
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-#titulo{
-    text-align:center;
-    margin-top:25px;
-    color:#355e3b;
-}
+        .sky-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6;
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--star-gold) 1px, transparent 1px),
+                radial-gradient(circle at 75% 15%, var(--star-gold) 2px, transparent 2px),
+                radial-gradient(circle at 50% 40%, rgba(244, 208, 104, 0.2) 20px, transparent 40px);
+            filter: blur(1px);
+        }
 
-#subtitulo{
-    text-align:center;
-    color:#557a5a;
-    margin-top:8px;
-}
+        header {
+            z-index: 2;
+            text-align: center;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
 
-#jardim{
-    position:relative;
-    width:100%;
-    height:70vh;
-}
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            color: var(--star-gold);
+            text-shadow: 0 0 10px rgba(244, 208, 104, 0.4);
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
 
-.flor{
-    position:absolute;
-    font-size:55px;
-    cursor:pointer;
-    transition:.3s;
-}
+        header p {
+            font-style: italic;
+            font-size: 0.95rem;
+            color: #8a9ba8;
+        }
 
-.flor:hover{
-    transform:scale(1.2) rotate(-5deg);
-}
+        .garden-container {
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 45px;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin-bottom: 50px;
+            padding: 0 20px;
+        }
 
-#mensagem{
-    position:absolute;
-    left:50%;
-    bottom:25px;
-    transform:translateX(-50%);
-    width:80%;
-    max-width:650px;
+        .flower {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
 
-    background:rgba(255,255,255,.85);
-    backdrop-filter:blur(5px);
+        .flower:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
 
-    padding:20px;
-    border-radius:15px;
+        .stem {
+            width: 4px;
+            height: 180px;
+            background: linear-gradient(to bottom, #192d20, #0a140d);
+            position: relative;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
 
-    text-align:center;
-    color:#444;
+        .leaf {
+            position: absolute;
+            width: 16px;
+            height: 8px;
+            background: #132419;
+            border-radius: 100% 0;
+            transform: rotate(-30deg);
+            left: -12px;
+        }
+        .leaf.right {
+            border-radius: 0 100%;
+            transform: rotate(30deg);
+            left: auto;
+            right: -12px;
+        }
 
-    box-shadow:0 4px 20px rgba(0,0,0,.12);
-}
+        .sunflower .petal-center {
+            width: 45px;
+            height: 45px;
+            background: #2b1a09;
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: inset 0 0 10px #000;
+            border: 2px dashed rgba(244, 208, 104, 0.3);
+        }
 
-#muda{
-    position:absolute;
-    left:50%;
-    top:55%;
-    transform:translate(-50%,-50%);
-    font-size:70px;
-    cursor:pointer;
-    transition:.4s;
-}
+        .sunflower .petals {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--star-gold) 30%, #c98a14 90%);
+            border-radius: 50%;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: pulse-glow 4s infinite ease-in-out;
+        }
 
-#muda:hover{
-    transform:translate(-50%,-50%) scale(1.15);
-}
+        .rose .petal-center {
+            width: 40px;
+            height: 40px;
+            background: var(--vampire-red);
+            border-radius: 50% 50% 45% 45%;
+            z-index: 5;
+            box-shadow: inset 0 0 15px #000, 0 0 10px rgba(88, 0, 0, 0.6);
+        }
 
-#regador{
-    position:absolute;
-    top:20px;
-    right:25px;
-    font-size:45px;
-    cursor:pointer;
-    transition:.3s;
-}
+        .rose .petals {
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            background: #3a0007;
+            border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+            border: 1px solid #1a0003;
+            transform: rotate(45deg);
+        }
 
-#regador:hover{
-    transform:rotate(-15deg);
-}
+        .night-rose .petal-center {
+            width: 40px;
+            height: 40px;
+            background: #101b2b;
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: inset 0 0 12px #000, 0 0 8px rgba(28, 45, 66, 0.8);
+        }
 
-.gota{
-    position:absolute;
-    font-size:20px;
-    animation:cair 1s linear forwards;
-}
+        .night-rose .petals {
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            background: #1c2d42;
+            border-radius: 50%;
+            opacity: 0.9;
+            box-shadow: inset 0 0 20px #0b131c;
+        }
 
-@keyframes cair{
-    from{
-        opacity:1;
-        transform:translateY(0);
-    }
-    to{
-        opacity:0;
-        transform:translateY(120px);
-    }
-}
+        .pot {
+            width: 120px;
+            height: 20px;
+            background: #111;
+            border-radius: 3px;
+            opacity: 0.8;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.7);
+        }
 
-.estrela{
-    position:absolute;
-    color:white;
-    opacity:.8;
-    animation:piscar 3s infinite;
-}
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 450px;
+            background: rgba(10, 11, 16, 0.95);
+            border: 1px solid rgba(244, 208, 104, 0.2);
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 0 20px rgba(88, 0, 0, 0.2);
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            z-index: 10;
+        }
 
-@keyframes piscar{
-    50%{
-        opacity:.3;
-    }
-}
-</style>
+        .message-box.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message-box p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            margin-bottom: 25px;
+        }
+
+        .message-box .close-btn {
+            background: transparent;
+            border: 1px solid rgba(244, 208, 104, 0.4);
+            color: var(--star-gold);
+            padding: 8px 20px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .message-box .close-btn:hover {
+            background: var(--star-gold);
+            color: #000;
+        }
+
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            z-index: 9;
+        }
+
+        .backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 1; box-shadow: 0 0 15px rgba(244, 208, 104, 0.2); }
+        }
+
+        @media (max-width: 600px) {
+            .garden-container { gap: 20px; height: 350px; }
+            .stem { height: 140px; }
+            header h1 { font-size: 1.6rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<h1 id="titulo">🌱 Um Jardim Para Você</h1>
-<p id="subtitulo">Algumas coisas crescem devagar. E tudo bem.</p>
+    <div class="sky-canvas"></div>
 
-<div id="regador">🪴</div>
+    <header>
+        <h1>As cores do céu e da noite</h1>
+        <p>Escolha uma flor para colher um pensamento...</p>
+    </header>
 
-<div id="jardim">
+    <div class="garden-container">
+        <!-- Flor 1: Girassol -->
+        <div class="flower sunflower" data-message="Acho que não há nada mais artisticamente verdadeiro do que amar as pessoas. E a noite sempre parece mais viva e ricamente colorida do que o dia.">
+            <div class="petals"></div>
+            <div class="petal-center"></div>
+            <div class="stem">
+                <div class="leaf" style="top: 40px;"></div>
+                <div class="leaf right" style="top: 80px;"></div>
+            </div>
+        </div>
 
-    <div class="flor" style="left:15%; top:65%;">🌷</div>
-    <div class="flor" style="left:30%; top:72%;">🌼</div>
-    <div class="flor" style="left:70%; top:70%;">🌹</div>
-    <div class="flor" style="left:82%; top:60%;">🌸</div>
+        <!-- Flor 2: Rosa Carmesim -->
+        <div class="flower rose" data-message="Atravessei oceanos de tempo para te encontrar. Nem a escuridão apaga o que foi moldado para ser eterno.">
+            <div class="petals"></div>
+            <div class="petals" style="transform: rotate(15deg); opacity: 0.7;"></div>
+            <div class="petal-center"></div>
+            <div class="stem">
+                <div class="leaf right" style="top: 50px;"></div>
+                <div class="leaf" style="top: 90px;"></div>
+            </div>
+        </div>
 
-    <div id="muda">🌱</div>
+        <!-- Flor 3: Rosa Azul Noite -->
+        <div class="flower night-rose" data-message="Mantenha o seu amor pela natureza, pois esse é o verdadeiro caminho para compreender a arte cada vez mais. Há poesia na calada da noite.">
+            <div class="petals"></div>
+            <div class="petal-center"></div>
+            <div class="stem">
+                <div class="leaf" style="top: 30px;"></div>
+                <div class="leaf right" style="top: 70px;"></div>
+            </div>
+        </div>
+    </div>
 
-</div>
+    <div style="margin-bottom: 20px;" class="pot"></div>
 
-<div id="mensagem">
-    Clique em uma flor ou na muda do centro.
-</div>
+    <div class="backdrop" id="backdrop" onclick="closeMessage()"></div>
+    <div class="message-box" id="messageBox">
+        <p id="messageText"></p>
+        <button class="close-btn" onclick="closeMessage()">Fechar</button>
+    </div>
 
-<script>
+    <script>
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+        const backdrop = document.getElementById('backdrop');
 
-const caixa = document.getElementById("mensagem");
+        document.querySelectorAll('.flower').forEach(flower => {
+            flower.addEventListener('click', function() {
+                const text = this.getAttribute('data-message');
+                messageText.textContent = text;
+                messageBox.classList.add('active');
+                backdrop.classList.add('active');
+            });
+        });
 
-const mensagensFlores = [
-
-"Você me ensinou a enxergar beleza em coisas pequenas.",
-
-"Existe uma lembrança sua que ainda me faz sorrir.",
-
-"Espero que hoje tenha sido gentil com você.",
-
-"Você não precisa florescer todos os dias.",
-
-"Mesmo os jardins mais bonitos passam por estações.",
-
-"Há pessoas que deixam flores dentro da gente.",
-
-"Seu valor não depende do quanto você consegue produzir.",
-
-"Descansar também faz parte de crescer."
-];
-
-document.querySelectorAll(".flor").forEach(flor => {
-
-    flor.addEventListener("click", () => {
-
-        const texto =
-        mensagensFlores[
-            Math.floor(
-                Math.random() * mensagensFlores.length
-            )
-        ];
-
-        caixa.innerHTML = texto;
-    });
-
-});
-
-const fases = [
-    "🌱",
-    "🌿",
-    "☘️",
-    "🌷",
-    "🌸",
-    "🌳"
-];
-
-let etapa = 0;
-
-document.getElementById("muda")
-.addEventListener("click", () => {
-
-    if(etapa < fases.length - 1){
-        etapa++;
-    }
-
-    document.getElementById("muda")
-    .textContent = fases[etapa];
-
-    const frases = [
-        "O crescimento leva tempo.",
-        "Um passo de cada vez.",
-        "Nem toda mudança é visível imediatamente.",
-        "Ainda está crescendo.",
-        "Tudo bem não ter pressa.",
-        "A primavera sempre encontra seu caminho."
-    ];
-
-    caixa.innerHTML =
-    frases[Math.floor(Math.random()*frases.length)];
-
-});
-
-document.getElementById("regador")
-.addEventListener("click", () => {
-
-    caixa.innerHTML =
-    mensagensFlores[
-        Math.floor(
-            Math.random()*mensagensFlores.length
-        )
-    ];
-
-    const gota = document.createElement("div");
-
-    gota.classList.add("gota");
-    gota.innerHTML = "💧";
-
-    gota.style.right = "35px";
-    gota.style.top = "70px";
-
-    document.body.appendChild(gota);
-
-    setTimeout(() => gota.remove(), 1000);
-
-});
-
-const hora = new Date().getHours();
-
-if(hora >= 18){
-
-    document.body.style.background =
-    "linear-gradient(to bottom,#1f2940 0%,#324d66 45%,#466e49 46%,#274427 100%)";
-
-    document.getElementById("titulo")
-    .style.color = "#ffffff";
-
-    document.getElementById("subtitulo")
-    .style.color = "#dfefff";
-
-    for(let i=0;i<30;i++){
-
-        const estrela =
-        document.createElement("div");
-
-        estrela.classList.add("estrela");
-
-        estrela.innerHTML = "✦";
-
-        estrela.style.left =
-        Math.random()*100 + "%";
-
-        estrela.style.top =
-        Math.random()*40 + "%";
-
-        estrela.style.fontSize =
-        (10 + Math.random()*12) + "px";
-
-        document.body.appendChild(estrela);
-    }
-}
-
-</script>
-
+        function closeMessage() {
+            messageBox.classList.remove('active');
+            backdrop.classList.remove('active');
+        }
+    </script>
 </body>
-  </html>
+</html>
